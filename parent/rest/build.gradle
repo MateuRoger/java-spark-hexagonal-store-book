@@ -1,0 +1,9 @@
+plugins{
+  id 'java-library'
+}
+
+dependencies {
+    implementation project(':parent:core')
+    implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.1.1'
+
+}

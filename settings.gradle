@@ -1,0 +1,4 @@
+include 'parent:core'
+include 'parent:app'
+include 'parent:rest'
+include 'parent:persistence'

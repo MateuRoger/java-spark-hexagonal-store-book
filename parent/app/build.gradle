@@ -1,0 +1,11 @@
+apply plugin: 'java'
+dependencies {
+    implementation project(':parent:core')
+    implementation project(':parent:rest')
+    implementation project(':parent:persistence')
+}
+
+def appName = project.property("application.name")
+def appVersion = project.property("application.version")
+
+jar.archiveBaseName = appName
