@@ -16,8 +16,8 @@ public record BookLot(List<BookStock> bookStocks) {
     return new BookLotStream();
   }
 
-  public void saveAllBooksUsing(final BookWriter bookWriter) {
-    this.bookStocks.forEach(bookStock -> bookStock.saveUsing(bookWriter));
+  public void storeAllBooksUsing(final BookWriter bookWriter) {
+    this.bookStocks.forEach(bookStock -> bookStock.storeUsing(bookWriter));
   }
 
   public BookLot cloneWithTheBooks(final List<BookStock> bookStocks) {

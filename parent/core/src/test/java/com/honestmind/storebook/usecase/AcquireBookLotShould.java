@@ -21,16 +21,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class AcquireBookLotUseCaseShould {
+class AcquireBookLotShould {
 
-  private AcquireBookLotUseCase acquireBookLotUseCase;
+  private AcquireBookLot acquireBookLot;
 
   @Mock
   private BookWriter bookWriterMocked;
 
   @BeforeEach
   void setUp() {
-    this.acquireBookLotUseCase = new AcquireBookLotUseCase(bookWriterMocked);
+    this.acquireBookLot = new AcquireBookLot(bookWriterMocked);
   }
 
   @Test
@@ -38,18 +38,22 @@ class AcquireBookLotUseCaseShould {
   void storeBooksInProperBookShelfWhenAllIsRight() {
     var correctBookLot = correctBookLot();
 
-    new GivenWhenThen()
+    new BookLotTest()
         .given(correctBookLot)
-        .when(this::performsAnAcquirementOfABookLot)
-        .then(savedBookLot -> assertThat(savedBookLot).isEqualTo(correctBookLot));
+        .when(this::acquireABookLot)
+        .then(this::allTheBooksAreStored);
   }
 
-  private BookLot performsAnAcquirementOfABookLot(final BookLot givenBookLot) {
+  private BookLot acquireABookLot(final BookLot bookLot) {
     final var bookLotCaptor = ArgumentCaptor.forClass(BookStock.class);
-    doNothing().when(this.bookWriterMocked).save(bookLotCaptor.capture());
+    doNothing().when(this.bookWriterMocked).store(bookLotCaptor.capture());
 
-    acquireBookLotUseCase.performsWith(givenBookLot);
-    return givenBookLot.cloneWithTheBooks(bookLotCaptor.getAllValues());
+    acquireBookLot.acquire(bookLot);
+    return bookLot.cloneWithTheBooks(bookLotCaptor.getAllValues());
+  }
+
+  private Consumer<BookLot> allTheBooksAreStored(final BookLot correctBookLot) {
+    return savedBookLot -> assertThat(savedBookLot).isEqualTo(correctBookLot);
   }
 
   private BookLot correctBookLot() {
@@ -72,17 +76,17 @@ class AcquireBookLotUseCaseShould {
   }
 
 
-  private static class GivenWhenThen {
+  private static class BookLotTest {
 
     private BookLot bookLot;
     private UnaryOperator<BookLot> when;
 
-    public GivenWhenThen given(final BookLot bookLot) {
+    public BookLotTest given(final BookLot bookLot) {
       this.bookLot = bookLot;
       return this;
     }
 
-    public GivenWhenThen when(final UnaryOperator<BookLot> when) {
+    public BookLotTest when(final UnaryOperator<BookLot> when) {
       this.when = when;
       return this;
     }

@@ -1,5 +1,5 @@
 package com.honestmind.storebook.usecase;
 
-public final class SellBookUseCase {
+public final class SearchForABook {
 
 }

@@ -5,8 +5,8 @@ import com.honestmind.storebook.port.out.BookWriter;
 
 public record BookStock(int quantity, Book book) {
 
-  public void saveUsing(final BookWriter bookWriter) {
-    bookWriter.save(this);
+  public void storeUsing(final BookWriter bookWriter) {
+    bookWriter.store(this);
   }
 
   public static class BookStockStream {

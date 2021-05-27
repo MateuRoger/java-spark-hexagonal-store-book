@@ -3,12 +3,9 @@ package com.honestmind.storebook.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book {
-
-  private final String title;
-  private final String author;
-  private final BookCategory category;
-  private final List<String> keywords;
+public record Book(String title, String author,
+                   BookCategory category,
+                   List<String> keywords) {
 
   public Book(final String title, final String author, final BookCategory category,
       final List<String> keywords) {

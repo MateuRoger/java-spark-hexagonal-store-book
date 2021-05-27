@@ -4,5 +4,5 @@ import com.honestmind.storebook.domain.BookStock;
 
 public interface BookWriter {
 
-  void save(final BookStock bookStock);
+  void store(final BookStock bookStock);
 }
