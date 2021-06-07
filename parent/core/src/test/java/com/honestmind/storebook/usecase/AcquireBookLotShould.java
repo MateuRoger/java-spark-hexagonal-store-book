@@ -10,7 +10,7 @@ import com.honestmind.storebook.domain.BookCategory;
 import com.honestmind.storebook.domain.BookLot;
 import com.honestmind.storebook.domain.BookStock;
 import com.honestmind.storebook.port.out.BookWriter;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +44,17 @@ class AcquireBookLotShould {
         .then(this::allTheBooksAreStored);
   }
 
+  @Test
+  @DisplayName("auto assign a bookshelf for each book according the type of the book when we acquire a new Book lot")
+  void AutoAssignABookShellForEachBookDependingOnBookCategoryWhenAcquireABookLot() {
+    var correctBookLot = correctBookLot();
+
+    new BookLotTest()
+        .given(correctBookLot)
+        .when(this::acquireABookLot)
+        .then(this::allTheBooksHasTheCorrespondingBookShelf);
+  }
+
   private BookLot acquireABookLot(final BookLot bookLot) {
     final var bookLotCaptor = ArgumentCaptor.forClass(BookStock.class);
     doNothing().when(this.bookWriterMocked).store(bookLotCaptor.capture());
@@ -52,8 +63,13 @@ class AcquireBookLotShould {
     return bookLot.cloneWithTheBooks(bookLotCaptor.getAllValues());
   }
 
-  private Consumer<BookLot> allTheBooksAreStored(final BookLot correctBookLot) {
-    return savedBookLot -> assertThat(savedBookLot).isEqualTo(correctBookLot);
+  private void allTheBooksAreStored(final BookLot savedBookLot, final BookLot expectedBookLot) {
+    assertThat(savedBookLot).isEqualTo(expectedBookLot);
+  }
+
+  private void allTheBooksHasTheCorrespondingBookShelf(final BookLot savedBookLot,
+      final BookLot expectedBookLot) {
+    assertThat(savedBookLot).isEqualTo(expectedBookLot);
   }
 
   private BookLot correctBookLot() {
@@ -91,8 +107,8 @@ class AcquireBookLotShould {
       return this;
     }
 
-    public void then(final Consumer<BookLot> then) {
-      then.accept(when.apply(bookLot));
+    public void then(final BiConsumer<BookLot, BookLot> then) {
+      then.accept(when.apply(bookLot), bookLot);
     }
   }
 
