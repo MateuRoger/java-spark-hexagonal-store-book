@@ -46,7 +46,7 @@ class AcquireBookLotShould {
 
   @Test
   @DisplayName("auto assign a bookshelf for each book according the type of the book when we acquire a new Book lot")
-  void AutoAssignABookShellForEachBookDependingOnBookCategoryWhenAcquireABookLot() {
+  void autoAssignABookshelfWhenAcquireNewBookLot() {
     var correctBookLot = correctBookLot();
 
     new BookLotTest()
