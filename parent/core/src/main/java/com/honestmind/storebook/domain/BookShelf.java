@@ -26,7 +26,7 @@ public record BookShelf(String id, String localization, BookCategory category) {
       this.category = UNKNOWN;
     }
 
-    public BookShelfStream localizatedAt(final String localization) {
+    public BookShelfStream localizedAt(final String localization) {
       this.localization = localization;
       return this;
     }

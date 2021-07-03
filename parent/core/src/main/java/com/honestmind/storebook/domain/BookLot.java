@@ -1,16 +1,11 @@
 package com.honestmind.storebook.domain;
 
-
 import com.honestmind.storebook.port.out.BookWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public record BookLot(List<BookStock> bookStocks) {
-
-  public BookLot(final List<BookStock> bookStocks) {
-    this.bookStocks = List.copyOf(bookStocks);
-  }
 
   public static BookLotStream givenAListOfBookStocks() {
     return new BookLotStream();
@@ -32,15 +27,15 @@ public record BookLot(List<BookStock> bookStocks) {
       this.bookStockStreams = new ArrayList<>();
     }
 
+    public BookStock.BookStockStream andThatContains(final int quantity) {
+      return thatContains(quantity);
+    }
+
     public BookStock.BookStockStream thatContains(final int quantity) {
       final BookStock.BookStockStream bookStockStream = new BookStock.BookStockStream(quantity,
           this);
       this.bookStockStreams.add(bookStockStream);
       return bookStockStream;
-    }
-
-    public BookStock.BookStockStream andThatContains(final int quantity) {
-      return thatContains(quantity);
     }
 
     public BookLot createsABookLot() {

@@ -11,7 +11,7 @@ public final class AcquireBookshelf {
     this.bookShelfWriter = bookShelfWriter;
   }
 
-  public void acquire(final BookShelf givenBookShelf) {
-    givenBookShelf.storeUsing(bookShelfWriter);
+  public void acquire(final BookShelf bookShelf) {
+    bookShelf.storeUsing(bookShelfWriter);
   }
 }

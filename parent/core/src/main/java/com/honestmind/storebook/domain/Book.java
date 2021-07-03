@@ -7,18 +7,9 @@ public record Book(String title, String author,
                    BookCategory category,
                    List<String> keywords) {
 
-  public Book(final String title, final String author, final BookCategory category,
-      final List<String> keywords) {
-    this.title = title;
-    this.author = author;
-    this.category = category;
-    this.keywords = List.copyOf(keywords);
-  }
-
   public static BookStream book() {
     return new BookStream();
   }
-
 
   public static class BookStream {
 
@@ -46,14 +37,14 @@ public record Book(String title, String author,
       return this;
     }
 
+    public BookStream andWithTheKeyWord(final String keywords) {
+      return this.withTheKeyWord(keywords);
+    }
+
     public BookStream withTheKeyWord(final String keyword) {
       this.keywords.add(keyword);
 
       return this;
-    }
-
-    public BookStream andWithTheKeyWord(final String keywords) {
-      return this.withTheKeyWord(keywords);
     }
 
     public Book obtain() {

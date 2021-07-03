@@ -55,7 +55,7 @@ class AcquireBookShelfShould {
 
   private BookShelf correctBookShelf() {
     return createsNewBookShelfWithTheId("RomanticBookShelf")
-        .localizatedAt("Bookshelf that contains Romantic books")
+        .localizedAt("Bookshelf that contains Romantic books")
         .withBooksOfType(BookCategory.ROMANTIC)
         .obtain();
 

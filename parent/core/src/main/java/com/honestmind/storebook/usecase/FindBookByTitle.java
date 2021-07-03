@@ -1,5 +1,5 @@
 package com.honestmind.storebook.usecase;
 
-public final class SearchForABook {
+public final class FindBookByTitle {
 
 }
