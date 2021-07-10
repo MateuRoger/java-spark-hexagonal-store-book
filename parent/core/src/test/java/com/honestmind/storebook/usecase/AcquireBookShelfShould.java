@@ -7,8 +7,8 @@ import static org.mockito.Mockito.doNothing;
 import com.honestmind.storebook.domain.BookCategory;
 import com.honestmind.storebook.domain.BookShelf;
 import com.honestmind.storebook.port.out.BookShelfWriter;
+import com.honestmind.storebook.utils.TestFluent;
 import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,10 +35,10 @@ class AcquireBookShelfShould {
   void addsBookShelfAndCAtegorizeItWhenAllIsRight() {
     var correctBookShelf = correctBookShelf();
 
-    new BookShelfTest()
+    new TestFluent<BookShelf>()
         .given(correctBookShelf)
         .when(this::BuyAndInstallABookShelf)
-        .then(theBookShelfWillStored(correctBookShelf));
+        .then(theBookShelfWillStoredIn(correctBookShelf));
   }
 
   private BookShelf BuyAndInstallABookShelf(final BookShelf bookShelf) {
@@ -49,7 +49,7 @@ class AcquireBookShelfShould {
     return bookShelfCaptor.getValue();
   }
 
-  private Consumer<BookShelf> theBookShelfWillStored(final BookShelf correctBookShelf) {
+  private Consumer<BookShelf> theBookShelfWillStoredIn(final BookShelf correctBookShelf) {
     return savedBookShelf -> assertThat(savedBookShelf).isEqualTo(correctBookShelf);
   }
 
@@ -59,27 +59,6 @@ class AcquireBookShelfShould {
         .withBooksOfType(BookCategory.ROMANTIC)
         .obtain();
 
-  }
-
-
-  private static class BookShelfTest {
-
-    private BookShelf bookLot;
-    private UnaryOperator<BookShelf> when;
-
-    public BookShelfTest given(final BookShelf bookLot) {
-      this.bookLot = bookLot;
-      return this;
-    }
-
-    public BookShelfTest when(final UnaryOperator<BookShelf> when) {
-      this.when = when;
-      return this;
-    }
-
-    public void then(final Consumer<BookShelf> then) {
-      then.accept(when.apply(bookLot));
-    }
   }
 
 }

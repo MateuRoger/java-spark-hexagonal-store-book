@@ -10,6 +10,7 @@ import com.honestmind.storebook.domain.BookCategory;
 import com.honestmind.storebook.domain.BookLot;
 import com.honestmind.storebook.domain.BookStock;
 import com.honestmind.storebook.port.out.BookWriter;
+import com.honestmind.storebook.utils.TestFluent;
 import java.util.function.BiConsumer;
 import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ class AcquireBookLotShould {
   void storeBooksInProperBookShelfWhenAllIsRight() {
     var correctBookLot = correctBookLot();
 
-    new BookLotTest()
+    new TestFluent<BookLot>()
         .given(correctBookLot)
         .when(this::acquireABookLot)
         .then(this::allTheBooksAreStored);
@@ -49,7 +50,7 @@ class AcquireBookLotShould {
   void autoAssignABookshelfWhenAcquireNewBookLot() {
     var correctBookLot = correctBookLot();
 
-    new BookLotTest()
+    new TestFluent<BookLot>()
         .given(correctBookLot)
         .when(this::acquireABookLot)
         .then(this::allTheBooksHasTheCorrespondingBookShelf);
@@ -90,26 +91,4 @@ class AcquireBookLotShould {
             .obtain())
         .createsABookLot();
   }
-
-
-  private static class BookLotTest {
-
-    private BookLot bookLot;
-    private UnaryOperator<BookLot> when;
-
-    public BookLotTest given(final BookLot bookLot) {
-      this.bookLot = bookLot;
-      return this;
-    }
-
-    public BookLotTest when(final UnaryOperator<BookLot> when) {
-      this.when = when;
-      return this;
-    }
-
-    public void then(final BiConsumer<BookLot, BookLot> then) {
-      then.accept(when.apply(bookLot), bookLot);
-    }
-  }
-
 }
