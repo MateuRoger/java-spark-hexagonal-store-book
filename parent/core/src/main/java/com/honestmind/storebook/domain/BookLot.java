@@ -11,7 +11,7 @@ public record BookLot(List<BookStock> bookStocks) {
   }
 
   public void storeAllBooksUsing(final BookWriter bookWriter) {
-    this.bookStocks.forEach(bookStock -> bookStock.storeUsing(bookWriter));
+    this.bookStocks.forEach(bookWriter::store);
   }
 
   public BookLot cloneWithTheBooks(final List<BookStock> bookStocks) {
