@@ -3,9 +3,15 @@ package com.honestmind.storebook.usecase;
 import com.honestmind.storebook.domain.BookShelf;
 import com.honestmind.storebook.port.out.BookShelfWriter;
 
-public record AcquireBookshelf(BookShelfWriter bookShelfWriter) {
+public final class AcquireBookshelf {
+
+  private final BookShelfWriter bookShelfWriter;
+
+  public AcquireBookshelf(final BookShelfWriter bookShelfWriter) {
+    this.bookShelfWriter = bookShelfWriter;
+  }
 
   public void acquire(final BookShelf bookShelf) {
-    bookShelfWriter.store(bookShelf);
+    bookShelf.storeUsing(bookShelfWriter);
   }
 }
